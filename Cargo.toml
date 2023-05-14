@@ -1,0 +1,20 @@
+[package]
+name = "study-chat-gpt-api-library"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4.24"
+jsonwebtoken = "8.3.0"
+reqwest = { version = "0.11", features = ["json"] }
+serde = "1.0.158"
+serde_json = "1.0.95"
+tokio = { version = "1.21", features = ["rt", "rt-multi-thread", "macros"] }
+futures = "0.3.27"
+async-trait = "0.1.68"
+# error handling
+anyhow = "1"
+axum = { version = "0.6.18", features = ["json"] }
+chatgpt_rs = "1.1.6"
