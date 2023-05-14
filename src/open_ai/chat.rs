@@ -1,6 +1,5 @@
 use axum::{extract::Query, response::Json};
 use chatgpt::prelude::ChatGPT;
-use chatgpt::types::CompletionResponse;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::collections::HashMap;
@@ -24,6 +23,7 @@ pub async fn handler_chat(Query(params): Query<HashMap<String, String>>) -> Json
 
 async fn chat(open_api_key: &str, content: &str) -> Result<String, anyhow::Error> {
     let client = ChatGPT::new(open_api_key)?;
-    let response: CompletionResponse = client.send_message(content).await?;
+    let mut conversation = client.new_conversation();
+    let response = conversation.send_message(content).await?;
     Ok(response.message().content.to_string())
 }
