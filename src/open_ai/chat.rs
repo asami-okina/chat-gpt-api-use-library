@@ -12,8 +12,20 @@ pub async fn handler_chat(body_json: Json<Value>) -> Json<Value> {
 
 async fn chat(open_api_key: &str, content: &str) -> Result<String, anyhow::Error> {
     let client = ChatGPT::new(open_api_key)?;
-    let mut conversation = client.new_conversation();
-    let response = conversation.send_message(content).await?;
+    let mut conversation =
+        client.new_conversation_directed("あなたは日本旅行の素晴らしいプランナーです。");
+    let description = r#"レスポンスは次のJSON形式で返してください。JSON以外の説明は不要です。
+    {
+        "places": [
+            {
+                "place": ""
+            }
+        ]
+    }
+    "#;
+    let response = conversation
+        .send_message(format!("{}{}", content, description))
+        .await?;
     let content = response.message().content.to_string();
     Ok(content)
 }
